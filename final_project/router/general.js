@@ -13,19 +13,27 @@ public_users.post("/register", (req,res) => {
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  return res.status(200).json(books);
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let isbn = req.params.isbn;
+  if(isbn > 0 && isbn < books.length) return res.status(400).json({message: "index out of bounds"})
+  return res.status(200).json(books[isbn]);
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let booksLen = Object.keys(books).length;
+  let author = req.params.author;
+  for(i = 1; i <= booksLen; i++){
+      //console.log(books[i].author.toString().replace(/\s/g, "").toLowerCase()+" - "+author.toString().replace(/\s/g, "").toLowerCase())
+      if(books[i].author.toString().replace(/\s/g, "").toLowerCase() == author.toString().replace(/\s/g, "").toLowerCase()) return res.status(200).json(books[i]);
+  }
+  return res.status(404).json({message: "Book not found"});
 });
 
 // Get all books based on title
