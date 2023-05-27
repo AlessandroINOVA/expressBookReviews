@@ -19,8 +19,9 @@ public_users.get('/',function (req, res) {
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
+  let booksLen = Object.keys(books).length;
   let isbn = req.params.isbn;
-  if(isbn > 0 && isbn < books.length) return res.status(400).json({message: "index out of bounds"})
+  if(isbn <= 0 || isbn > booksLen) return res.status(400).json({message: "index out of bounds"})
   return res.status(200).json(books[isbn]);
  });
   
@@ -30,7 +31,6 @@ public_users.get('/author/:author',function (req, res) {
   let booksLen = Object.keys(books).length;
   let author = req.params.author;
   for(i = 1; i <= booksLen; i++){
-      //console.log(books[i].author.toString().replace(/\s/g, "").toLowerCase()+" - "+author.toString().replace(/\s/g, "").toLowerCase())
       if(books[i].author.toString().replace(/\s/g, "").toLowerCase() == author.toString().replace(/\s/g, "").toLowerCase()) return res.status(200).json(books[i]);
   }
   return res.status(404).json({message: "Book not found"});
@@ -39,13 +39,21 @@ public_users.get('/author/:author',function (req, res) {
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let booksLen = Object.keys(books).length;
+  let title = req.params.title;
+  for(i = 1; i <= booksLen; i++){
+      if(books[i].title.toString().replace(/\s/g, "").toLowerCase() == title.toString().replace(/\s/g, "").toLowerCase()) return res.status(200).json(books[i]);
+  }
+  return res.status(404).json({message: "Book not found"});
 });
 
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  let booksLen = Object.keys(books).length;
+  let isbn = req.params.isbn;
+  if(isbn <= 0 || isbn > booksLen) return res.status(400).json({message: "index out of bounds"})
+  return res.status(200).json(books[isbn].reviews);
 });
 
 module.exports.general = public_users;
