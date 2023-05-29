@@ -71,9 +71,6 @@ async function getBooksList(){
     let res = await axios.get("http://localhost:5000/")
     console.log("Books list: "+JSON.stringify(res.data))
 }
-async function getBooksListTO(){
-    setTimeout(getBooksList, 2000);
-}
 async function getBookDetailsISBN(){
     let res = await axios.get("http://localhost:5000/isbn/3");
     console.log("Book details based on isbn: "+JSON.stringify(res.data));
@@ -86,7 +83,7 @@ async function getBookDetailsTitle(){
     let res = await axios.get("http://localhost:5000/title/The Divine Comedy");
     console.log("Book details based on title: "+JSON.stringify(res.data))
 }
-getBooksListTO()
+setTimeout(getBooksList, 2000)
 getBookDetailsISBN()
 getBookDetailsAuthor()
 getBookDetailsTitle()
